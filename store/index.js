@@ -1,5 +1,6 @@
 export const state = () => ({
-  isNavOpen: false
+  isNavOpen: false,
+  selectedProjectPath: ""
 });
 
 export const mutations = {
@@ -8,5 +9,8 @@ export const mutations = {
   },
   toggleNav(state) {
     state.isNavOpen = !state.isNavOpen;
+  },
+  setSelectedProjectPath(state, projectPath) {
+    state.selectedProjectPath = projectPath;
   }
 };

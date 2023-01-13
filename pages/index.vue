@@ -1,10 +1,7 @@
-<script>
-
-</script>
 
 <template>
   <main class="absolute w-full h-full flex flex-col place-items-center bg-stone-800 text-zinc-300">
-    <!-- <SideBar>hi</SideBar> -->
+    <SideBar></SideBar>
     <div class="text-6xl text-center mt-32 font-bold">Hello, my name is Maxim Popov</div>
     <SkillCircle class="mt-32"></SkillCircle>
     <SearchBar class="mt-16"></SearchBar>
