@@ -1,6 +1,17 @@
 export const state = () => ({
   isNavOpen: false,
-  selectedProjectPath: ""
+  selectedProjectPath: "",
+  searchText: "",
+  filters: {
+    radio: {
+      study: false,
+      work: false,
+    },
+    check: {
+      web: false,
+      embedded: false
+    }
+  }
 });
 
 export const mutations = {
@@ -12,5 +23,8 @@ export const mutations = {
   },
   setSelectedProjectPath(state, projectPath) {
     state.selectedProjectPath = projectPath;
+  },
+  setSearchText(state, text) {
+    state.searchText = text
   }
 };

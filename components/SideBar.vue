@@ -28,13 +28,14 @@ export default {
 
 <template>
     <div class="sidebar">
-        <transition name="backdrop"> <div class="sidebar-backdrop" @click="closeSidebarPanel" v-if="isPanelOpen"></div> </transition>
+        <transition name="backdrop"> <div class="sidebar-backdrop pointer-events-auto" @click="closeSidebarPanel" v-if="isPanelOpen"></div> </transition>
         <transition name="slide">
             <div v-if="isPanelOpen"
                  class="sidebar-panel overflow-y-auto">
                 <p v-if="$fetchState.pending" class="font-bold">Loading....</p>
                 <div class="p-2" v-else> 
                     <h1 class="text-3xl font-bold"> {{projectPage.title}} </h1>
+                    <h2 class="text-l italic">{{projectPage.date}}</h2>
                     <div class="mt-6"><nuxt-content  :document="projectPage" /> </div>
                     <div class="mt-6">Tags: <ul class="inline-block"><li class="font-bold inline-block ml-3" v-for="tag in projectPage.tags">{{tag}} </li></ul></div>
                 </div>

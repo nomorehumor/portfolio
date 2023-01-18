@@ -1,5 +1,4 @@
 <script>
-
 export default {
     methods: {
         showProjectInfo(projectName) {
@@ -10,53 +9,106 @@ export default {
             this.projectInfoVisible = false;
         },
         openDetails(projectPath) {
-            this.$store.commit('toggleNav')
-            this.$store.commit('setSelectedProjectPath', projectPath)
-        }
+            this.$store.commit("toggleNav");
+            this.$store.commit("setSelectedProjectPath", projectPath);
+        },
+        highlightModules() {
+            let searchText = this.$store.state.searchText.toLowerCase();
+            for (let tech of this.techs) {
+                for (let project of tech.projects) {
+                    
+                    if (searchText == "") {
+                        project.filter = false; // reset
+                        continue;
+                    }
+
+                    project.filter = true;
+
+                    if (project.name.toLowerCase().includes(searchText)) {
+                        project.filter = false;
+                    } else if (project.tags.includes(searchText)){
+                        project.filter = false;
+                    }
+                }
+            }
+        },
     },
-  data() {
-    return {
-      projectInfoVisible: false,
-      highlightedProject: "",
-      techs: []
-    }
-  },
+    data() {
+        return {
+            projectInfoVisible: false,
+            highlightedProject: "",
+            techs: [],
+        };
+    },
+    watch: {
+        "$store.state.searchText": "highlightModules",
+    },
 
     async fetch() {
-        const techsInfos = await this.$content('techs', {deep:true}).where({ slug: 'tech' }).fetch()
-        var techs = []
+        const techsInfos = await this.$content("techs", { deep: true })
+            .where({ slug: "tech" })
+            .fetch();
+        var techs = [];
         for (let id1 = 0; id1 < techsInfos.length; id1++) {
-            const projects = await this.$content(techsInfos[id1].dir).where({slug: {$ne: 'tech'}}).only(['title', 'tags', 'path']).fetch()
-            var techProjects = []
+            const projects = await this.$content(techsInfos[id1].dir)
+                .where({ slug: { $ne: "tech" } })
+                .only(["title", "tags", "path"])
+                .fetch();
+            var techProjects = [];
             for (let id = 0; id < projects.length; id++) {
-                techProjects.push({id: id, name: projects[id].title, path: projects[id].path})
+                techProjects.push({
+                    id: id,
+                    name: projects[id].title,
+                    path: projects[id].path,
+                    filter: false,
+                    tags: projects[id].tags.map(tag => tag.toLowerCase())
+                });
             }
-            techs.push({techId: id1, name: techsInfos[id1].name, color: techsInfos[id1].color, projects: techProjects})
+            techs.push({
+                techId: id1,
+                name: techsInfos[id1].name,
+                color: techsInfos[id1].color,
+                projects: techProjects,
+            });
         }
-        this.techs = techs
-    } 
-
-}
-
+        this.techs = techs;
+    },
+};
 </script>
 
 <template>
-<div class="diagram-container grid place-items-center w-80 aspect-square">
-    <ProjectQuickInfo v-if="projectInfoVisible" :text="highlightedProject"></ProjectQuickInfo>
-    <div class="circle absolute border-2 border-rose-500 w-64 aspect-square rounded-full"></div>
-    <div v-for="tech in techs" :key="tech.techId" class="tech absolute w-96 aspect-square grid place-items-center pointer-events-none" :style="{'--r': 25*tech.techId + 'deg'}">
-        <div class="tech-name absolute text-center mb-56 text-xs w-full"><p>{{tech.name}}</p></div>
-        <div v-for="project in tech.projects" 
-            @click="openDetails(project.path)" 
-            class="project-block cursor-pointer absolute rounded-lg inline-grid justify-center w-11 h-4 z-40 pointer-events-auto" 
-            :style="{'--w':-17 - 3*project.id  +'vh', 'background-color': tech.color}" 
-            @mouseenter="showProjectInfo(project.name)" 
-            @mouseleave="closeProjectInfo">
+    <div class="diagram-container grid place-items-center w-80 aspect-square">
+        <ProjectQuickInfo
+            v-if="projectInfoVisible"
+            :text="highlightedProject"
+        ></ProjectQuickInfo>
+        <div
+            class="circle absolute border-2 border-rose-500 w-64 aspect-square rounded-full"
+        ></div>
+        <div
+            v-for="tech in techs"
+            :key="tech.techId"
+            class="tech absolute w-96 aspect-square grid place-items-center pointer-events-none"
+            :style="{ '--r': 25 * tech.techId + 'deg' }"
+        >
+            <div class="tech-name absolute text-center mb-56 text-xs w-full">
+                <p>{{ tech.name }}</p>
+            </div>
+            <div
+                v-for="project in tech.projects"
+                @click="openDetails(project.path)"
+                class="project-block cursor-pointer absolute rounded-lg inline-grid justify-center w-11 h-4 z-40 pointer-events-auto ease-in duration-100"
+                :class="{ filtered: project.filter, colored: !project.filter }"
+                :style="{
+                    '--w': -17 - 3 * project.id + 'vh',
+                    '--c': tech.color,
+                }"
+                @mouseenter="showProjectInfo(project.name)"
+                @mouseleave="closeProjectInfo"
+            ></div>
         </div>
     </div>
-</div>
 </template>
-
 
 <style scoped>
 .project-block {
@@ -72,4 +124,14 @@ export default {
     transform: rotate(var(--r));
 }
 
+.colored {
+    /* transition: .1s; */
+    background-color: var(--c);
+}
+
+.filtered {
+    /* transition: .1s; */
+    opacity: .2;
+    background-color: #F0F0F0 !important;
+}
 </style>

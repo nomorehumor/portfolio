@@ -5,6 +5,7 @@
     <div class="text-6xl text-center mt-32 font-bold">Hello, my name is Maxim Popov</div>
     <SkillCircle class="mt-32"></SkillCircle>
     <SearchBar class="mt-16"></SearchBar>
+    <FilterButtonPanel class="mt-8"></FilterButtonPanel>
   </main>
 </template>
 

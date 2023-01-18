@@ -1,5 +1,6 @@
 ---
-title: example
-tags: [C++, Qt, OpenGL, UML, study]
+title: KITcar
+tags: [C++, OpenCV, Computer Vision, embedded, study]
+date: 01.2021 - 05.2022
 ---
 Another __example__ *project*
