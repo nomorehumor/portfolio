@@ -17,18 +17,19 @@ export default {
             for (let tech of this.techs) {
                 for (let project of tech.projects) {
                     
-                    if (searchText == "") {
-                        project.filter = false; // reset
-                        continue;
+                    let correctType = false;
+                    let correctName = false;
+
+                    if (this.$store.state.filters.type == "" || project.tags.includes(this.$store.state.filters.type)) {
+                        correctType = true
                     }
 
-                    project.filter = true;
+                    if (searchText == "" || project.name.toLowerCase().includes(searchText) || project.tags.includes(searchText)) {
+                        correctName = true;
+                    } 
 
-                    if (project.name.toLowerCase().includes(searchText)) {
-                        project.filter = false;
-                    } else if (project.tags.includes(searchText)){
-                        project.filter = false;
-                    }
+                    project.filter = !(correctType && correctName);
+        
                 }
             }
         },
@@ -42,6 +43,7 @@ export default {
     },
     watch: {
         "$store.state.searchText": "highlightModules",
+        "$store.state.filters.type": "highlightModules",
     },
 
     async fetch() {
@@ -83,7 +85,7 @@ export default {
             :text="highlightedProject"
         ></ProjectQuickInfo>
         <div
-            class="circle absolute border-2 border-rose-500 w-64 aspect-square rounded-full"
+            class="circle absolute border-2 border-violet-700 hover:border-white transition-colors duraion-100 w-64 aspect-square rounded-full"
         ></div>
         <div
             v-for="tech in techs"
@@ -132,6 +134,6 @@ export default {
 .filtered {
     /* transition: .1s; */
     opacity: .2;
-    background-color: #F0F0F0 !important;
+    background-color: #A3A3A3 !important;
 }
 </style>

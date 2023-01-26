@@ -3,14 +3,11 @@ export const state = () => ({
   selectedProjectPath: "",
   searchText: "",
   filters: {
-    radio: {
-      study: false,
-      work: false,
-    },
-    check: {
-      web: false,
-      embedded: false
-    }
+    type: "",
+    area: "", 
+    //   web: false,
+    //   embedded: false
+    // }
   }
 });
 
@@ -26,5 +23,8 @@ export const mutations = {
   },
   setSearchText(state, text) {
     state.searchText = text
+  },
+  setTypeFilter(state, type) {
+    state.filters.type = type
   }
 };
