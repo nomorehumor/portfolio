@@ -16,7 +16,7 @@ export default {
             this.$store.commit('setSearchText', text)
         },
         focusSearch(event) {
-            if (this.$refs.search == document.activeElement) return;
+            if (this.$refs.search === document.activeElement) return;
             
             this.$refs.search.focus()
         },
@@ -26,11 +26,12 @@ export default {
 
 <template>
 <div>
-    <input type="text" 
-            class="w-[40rem] h-16 bg-transparent text-3xl font-extralight align-bottom focus:outline-none search-bar p-3 text-center" 
-            ref="search"
-            @input="text => setSearchText(text.target.value)"
-            placeholder="Type something you want to find..."/>
+    <input
+            ref="search" 
+            type="text" 
+            class="w-[40rem] h-16 bg-transparent text-3xl font-extralight align-bottom focus:outline-none search-bar p-3 text-center"
+            placeholder="Type something you want to find..."
+            @input="text => setSearchText(text.target.value)"/>
 </div>
 </template>
 

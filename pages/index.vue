@@ -14,7 +14,7 @@
 
 @media (min-width: 1024px) {
   
-  }
+}
   /* .project-block:before {
     content: "";
     position: absolute;

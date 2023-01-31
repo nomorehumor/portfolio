@@ -1,6 +1,9 @@
 <script>
 
 export default {
+    props: {
+        text: String
+    },
     data() {
         return {
             mousePosX: 0,
@@ -13,15 +16,12 @@ export default {
           this.mousePosY = event.clientY;
         });
     },
-    props: {
-        text: String
-    },
 }
 
 </script>
 
 <template>
-<div class="bg-white w-auto h-auto p-2 absolute z-10 text-black" :style="{'top': this.mousePosY + 10 +'px', 'left': this.mousePosX + 10 +'px'}">
+<div class="bg-white w-auto h-auto p-2 absolute z-10 text-black" :style="{'top': mousePosY + 10 +'px', 'left': mousePosX + 10 +'px'}">
     {{ text }}
 </div>
 

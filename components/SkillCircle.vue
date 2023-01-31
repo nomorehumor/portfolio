@@ -1,5 +1,46 @@
 <script>
 export default {
+    data() {
+        return {
+            projectInfoVisible: false,
+            highlightedProject: "",
+            techs: [],
+        };
+    },
+
+    async fetch() {
+        const techsInfos = await this.$content("techs", { deep: true })
+            .where({ slug: "tech" })
+            .fetch();
+        let techs = [];
+        for (let id1 = 0; id1 < techsInfos.length; id1++) {
+            const projects = await this.$content(techsInfos[id1].dir)
+                .where({ slug: { $ne: "tech" } })
+                .only(["title", "tags", "path"])
+                .fetch();
+            let techProjects = [];
+            for (let id = 0; id < projects.length; id++) {
+                techProjects.push({
+                    id: id,
+                    name: projects[id].title,
+                    path: projects[id].path,
+                    filter: false,
+                    tags: projects[id].tags.map(tag => tag.toLowerCase())
+                });
+            }
+            techs.push({
+                techId: id1,
+                name: techsInfos[id1].name,
+                color: techsInfos[id1].color,
+                projects: techProjects,
+            });
+        }
+        this.techs = techs;
+    },
+    watch: {
+        "$store.state.searchText": "highlightModules",
+        "$store.state.filters.type": "highlightModules",
+    },
     methods: {
         showProjectInfo(projectName) {
             this.projectInfoVisible = true;
@@ -13,8 +54,8 @@ export default {
             this.$store.commit("setSelectedProjectPath", projectPath);
         },
         highlightModules() {
-            let searchText = this.$store.state.searchText.toLowerCase();
-            for (let tech of this.techs) {
+            const searchText = this.$store.state.searchText.toLowerCase();
+            for (const tech of this.techs) {
                 for (let project of tech.projects) {
                     
                     let correctType = false;
@@ -33,47 +74,6 @@ export default {
                 }
             }
         },
-    },
-    data() {
-        return {
-            projectInfoVisible: false,
-            highlightedProject: "",
-            techs: [],
-        };
-    },
-    watch: {
-        "$store.state.searchText": "highlightModules",
-        "$store.state.filters.type": "highlightModules",
-    },
-
-    async fetch() {
-        const techsInfos = await this.$content("techs", { deep: true })
-            .where({ slug: "tech" })
-            .fetch();
-        var techs = [];
-        for (let id1 = 0; id1 < techsInfos.length; id1++) {
-            const projects = await this.$content(techsInfos[id1].dir)
-                .where({ slug: { $ne: "tech" } })
-                .only(["title", "tags", "path"])
-                .fetch();
-            var techProjects = [];
-            for (let id = 0; id < projects.length; id++) {
-                techProjects.push({
-                    id: id,
-                    name: projects[id].title,
-                    path: projects[id].path,
-                    filter: false,
-                    tags: projects[id].tags.map(tag => tag.toLowerCase())
-                });
-            }
-            techs.push({
-                techId: id1,
-                name: techsInfos[id1].name,
-                color: techsInfos[id1].color,
-                projects: techProjects,
-            });
-        }
-        this.techs = techs;
     },
 };
 </script>
@@ -98,13 +98,13 @@ export default {
             </div>
             <div
                 v-for="project in tech.projects"
-                @click="openDetails(project.path)"
-                class="project-block cursor-pointer absolute rounded-lg inline-grid justify-center w-11 h-4 z-40 pointer-events-auto ease-in duration-100"
-                :class="{ filtered: project.filter, colored: !project.filter }"
                 :style="{
                     '--w': -17 - 3 * project.id + 'vh',
                     '--c': tech.color,
                 }"
+                :class="{ filtered: project.filter, colored: !project.filter }"
+                class="project-block cursor-pointer absolute rounded-lg inline-grid justify-center w-11 h-4 z-40 pointer-events-auto ease-in duration-100"
+                @click="openDetails(project.path)"
                 @mouseenter="showProjectInfo(project.name)"
                 @mouseleave="closeProjectInfo"
             ></div>
