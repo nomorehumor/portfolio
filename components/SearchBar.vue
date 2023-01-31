@@ -1,7 +1,18 @@
+/* eslint-disable vue/first-attribute-linebreak */
 <script>
 export default {
+    watch: {
+        '$store.state.searchText'(text) {
+            this.$refs.search.value = text
+        }
+    },
+    mounted() {
+        if (process.browser) {
+            window.addEventListener('keypress', this.focusSearch);
+        }
+    },
     methods: {
-        updateSearchText(text) {
+        setSearchText(text) {
             this.$store.commit('setSearchText', text)
         },
         focusSearch(event) {
@@ -9,11 +20,6 @@ export default {
             
             this.$refs.search.focus()
         },
-    },
-    mounted() {
-        if (process.browser) {
-            window.addEventListener('keypress', this.focusSearch);
-        }
     },
 }
 </script>
@@ -23,7 +29,7 @@ export default {
     <input type="text" 
             class="w-[40rem] h-16 bg-transparent text-3xl font-extralight align-bottom focus:outline-none search-bar p-3 text-center" 
             ref="search"
-            @input="text => updateSearchText(text.target.value)"
+            @input="text => setSearchText(text.target.value)"
             placeholder="Type something you want to find..."/>
 </div>
 </template>
