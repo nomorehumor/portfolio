@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-<div class="bg-white w-auto h-auto p-2 absolute z-10 text-black" :style="{'top': mousePosY + 10 +'px', 'left': mousePosX + 10 +'px'}">
+<div class="bg-neutral-900 text-neutral-50 w-auto h-auto p-2 absolute z-10 border border-neutral-600" :style="{'top': mousePosY + 10 +'px', 'left': mousePosX + 10 +'px'}">
     {{ text }}
 </div>
 

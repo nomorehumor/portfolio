@@ -36,13 +36,18 @@ export default {
         <transition name="slide">
             <div
                 v-if="isPanelOpen"
-                class="sidebar-panel overflow-y-auto">
+                class="sidebar-panel bg-neutral-900	overflow-y-auto">
                 <p v-if="$fetchState.pending" class="font-bold">Loading....</p>
                 <div v-else class="p-2"> 
                     <h1 class="text-3xl font-bold"> {{projectPage.title}} </h1>
                     <h2 class="text-l italic">{{projectPage.date}}</h2>
                     <div class="mt-6"><nuxt-content  :document="projectPage" /> </div>
-                    <div class="mt-6"><span class="font-bold">Tags:</span> <ul class="inline-block text-base"><li v-for="tag in projectPage.tags" class="bg-[#2f2f2f] hover:bg-[#9f9f9f] hover:cursor-pointer rounded-full px-2 inline-block ml-3 mt-3" @click="clickTag(tag)">{{tag}} </li></ul></div>
+                    <div class="mt-6 p-4 rounded-3xl bg-neutral-800">
+                        <div class="font-bold text-lg">Tags:</div> 
+                        <ul class="flex flex-wrap text-base gap-x-3 gap-y-3 mt-3"> 
+                            <li v-for="tag in projectPage.tags" class="bg-neutral-700 hover:bg-[#9f9f9f] hover:cursor-pointer rounded-full px-2 inline-block" @click="clickTag(tag)">{{tag}} </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -80,7 +85,7 @@ export default {
 
 .sidebar-panel {
     overflow-y: auto;
-    background-color: #171717;
+    /* background-color: #171717; */
     position: fixed;
     right: 0;
     top: 0;

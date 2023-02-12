@@ -29,7 +29,7 @@ export default {
     <input
             ref="search" 
             type="text" 
-            class="w-[40rem] h-16 bg-transparent text-3xl font-extralight align-bottom focus:outline-none search-bar p-3 text-center"
+            class="w-[40rem] h-16 bg-transparent text-3xl font-thin align-bottom focus:outline-none search-bar p-3 text-center"
             placeholder="Type something you want to find..."
             @input="text => setSearchText(text.target.value)"/>
 </div>

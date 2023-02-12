@@ -2,7 +2,7 @@
 <template>
   <main class="absolute w-full h-full flex flex-col place-items-center bg-[#121212] text-zinc-300">
     <SideBar></SideBar>
-    <div class="text-6xl text-center mt-32 font-bold">Hello, my name is Maxim Popov</div>
+    <div class="text-6xl text-center mt-32 font-extrabold">Hello, my name is Maxim Popov</div>
     <SkillCircle class="mt-32"></SkillCircle>
     <SearchBar class="mt-16"></SearchBar>
     <FilterButtonPanel class="mt-8"></FilterButtonPanel>

@@ -85,7 +85,7 @@ export default {
             :text="highlightedProject"
         ></ProjectQuickInfo>
         <div
-            class="circle absolute border-2 border-violet-700 hover:border-white transition-colors duraion-100 w-64 aspect-square rounded-full"
+            class="circle absolute border-2 border-zinc-100 transition-colors duraion-100 w-64 aspect-square rounded-full"
         ></div>
         <div
             v-for="tech in techs"
