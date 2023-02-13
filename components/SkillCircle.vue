@@ -103,7 +103,7 @@ export default {
                     '--c': tech.color,
                 }"
                 :class="{ filtered: project.filter, colored: !project.filter }"
-                class="project-block cursor-pointer absolute rounded-lg inline-grid justify-center w-11 h-4 z-40 pointer-events-auto ease-in duration-100"
+                class="project-block cursor-pointer absolute rounded-lg inline-grid justify-center w-11 h-4 z-50 pointer-events-auto ease-in duration-100"
                 @click="openDetails(project.path)"
                 @mouseenter="showProjectInfo(project.name)"
                 @mouseleave="closeProjectInfo"

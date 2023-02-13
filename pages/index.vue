@@ -6,11 +6,15 @@
     <SkillCircle class="mt-32"></SkillCircle>
     <SearchBar class="mt-16"></SearchBar>
     <FilterButtonPanel class="mt-8"></FilterButtonPanel>
+    <BackgroundWaves color="#606060" :strength="0.15"></BackgroundWaves>
   </main>
 </template>
 
 <style scoped>
 
+main {
+  z-index: -2;
+}
 
 @media (min-width: 1024px) {
   
