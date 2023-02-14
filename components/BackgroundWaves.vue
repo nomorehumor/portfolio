@@ -2,7 +2,7 @@
 <script>
 const paper = require('paper');
 let values = {
-    friction: 70,
+    friction: 20,
     timeStep: 0.07,
     amount: 15,
     mass: 10,
@@ -51,7 +51,7 @@ class Wave {
         let segment = location.segment;
         let point = segment.point;
 
-        if (!point.fixed && location.distance < this.size.height / 10) {
+        if (!point.fixed && location.distance < this.size.height / 20) {
             let y = event.clientY;
             point.y += (y - point.y) / 6;
             if (segment.previous && !segment.previous.fixed) {
@@ -97,7 +97,7 @@ class Wave {
         });
         this.springs = [];
         for (let i = 0; i <= values.amount; i++) {
-            let segment = this.path.add(new paper.Point((i / values.amount) * this.scopeSize.width, 0.5 * this.scopeSize.height));
+            let segment = this.path.add(new paper.Point((i / values.amount) * this.scopeSize.width, 0.55 * this.scopeSize.height));
             let point = segment.point;
             // if (i === 0 || i === values.amount)
             //     point.y += this.size.height;
@@ -131,8 +131,8 @@ export default {
 
 
         let size = new paper.Size(this.scope.view.size.width * 1.4, this.scope.view.size.height)
-        const colors = ["#202020", "#404040", "#585858", "#686868", "#909090", "#989898"]
-        const strengths = [0.13, 0.11, 0.09, 0.07, 0.06]
+        const colors = ["#0d0d0d", "#1a1a1a", "#262626", "#333333", "#404040", "#4d4d4d"]
+        const strengths = [0.30, 0.25, 0.2, 0.15, 0.1, 0.05]
         for (let i = 0; i < 6; i++) {
             let wave = new Wave(this.scope.view.size, size, strengths[i], colors[i]);
             this.waves.push(wave)
