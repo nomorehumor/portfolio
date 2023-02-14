@@ -1,6 +1,12 @@
 /* eslint-disable vue/first-attribute-linebreak */
 <script>
+const placeholderValues = ["IoT", "embedded", "kitcar", "web"]
 export default {
+    data() {
+        return {
+            currentPlaceholderId: 0
+        }
+    },
     watch: {
         '$store.state.searchText'(text) {
             this.$refs.search.value = text
@@ -10,8 +16,18 @@ export default {
         if (process.browser) {
             window.addEventListener('keypress', this.focusSearch);
         }
+        this.timerId = setInterval(() => {
+            this.$refs.search.placeholder = ""
+            this.typewritePlaceholder(placeholderValues[this.currentPlaceholderId])
+            this.currentPlaceholderId = (this.currentPlaceholderId + 1) % placeholderValues.length
+        },3000)
     },
     methods: {
+        typewritePlaceholder(placeholder) {
+            if (placeholder.length == 0) return;
+            this.$refs.search.placeholder += placeholder[0]
+            setTimeout(this.typewritePlaceholder, 100, placeholder.slice(1, placeholder.length))
+        },
         setSearchText(text) {
             this.$store.commit('setSearchText', text)
         },
@@ -44,5 +60,9 @@ export default {
 
 .search-bar:focus {
     border-bottom: 2px solid white;
+}
+
+.search-bar:focus::placeholder {
+     color: transparent;
 }
 </style>
