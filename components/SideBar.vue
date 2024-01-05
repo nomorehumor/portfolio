@@ -39,7 +39,7 @@ export default {
                 class="sidebar-panel bg-neutral-900	overflow-y-auto">
                 <p v-if="$fetchState.pending" class="font-bold">Loading....</p>
                 <div v-else class="p-2"> 
-                    <h1 class="text-3xl font-bold"> {{projectPage.title}} </h1>
+                    <h1 class="text-3xl font-bold"> {{ projectPage.emoji }} {{projectPage.title}} </h1>
                     <h2 class="text-l italic">{{projectPage.date}}</h2>
                     <div class="mt-6"><nuxt-content  :document="projectPage" /> </div>
                     <div class="mt-6 p-4 rounded-3xl bg-neutral-800">

@@ -2,6 +2,7 @@
 title: KITcar
 tags: [C++, OpenCV, Computer Vision, embedded, personal]
 date: 01.2021 - 05.2022
+emoji: 🏎️
 ---
 KITcar e.V. is a student group at KIT university. The goal is to create a autonomous car model that can drive on a track analogical to the real-world street. The track has obstacles, stoplines, road signs and other objects. 
 
