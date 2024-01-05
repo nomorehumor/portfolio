@@ -20,9 +20,9 @@ let Spring = function(a, b, strength, restLength) {
 };
 
 Spring.prototype.update = function() {
-    var delta = new paper.Point(this.b.x - this.a.x, this.b.y - this.a.y);
-    var dist = delta.length;
-    var normDistStrength = (dist - this.restLength) /
+    const delta = new paper.Point(this.b.x - this.a.x, this.b.y - this.a.y);
+    const dist = delta.length;
+    const normDistStrength = (dist - this.restLength) /
             (dist * this.mamb) * this.strength;
     // console.log("delta", delta)
     delta.y *= normDistStrength * values.invMass * 0.2;
@@ -77,41 +77,56 @@ class Wave {
     }
 
     updateWave(path) {
-        var force = 1 - values.friction * values.timeStep * values.timeStep;
-        for (var i = 0, l = path.segments.length; i < l; i++) {
-            var point = path.segments[i].point;
-            var dy = (point.y - point.py) * force;
+        let force = 1 - values.friction * values.timeStep * values.timeStep;
+        for (let i = 0, l = path.segments.length; i < l; i++) {
+            const point = path.segments[i].point;
+            const dy = (point.y - point.py) * force;
             point.py = point.y;
             point.y = Math.max(point.y + dy, 0);
         }
 
-        for (var j = 0, l = this.springs.length; j < l; j++) {
+        for (let j = 0, l = this.springs.length; j < l; j++) {
             this.springs[j].update();
         }
         this.path.smooth({ type: 'continuous' });
     }
 
     createPath() {
-        this.path = new paper.Path({
-            strokeColor: this.color
-        });
-        this.springs = [];
-        for (let i = 0; i <= values.amount; i++) {
-            let segment = this.path.add(new paper.Point((i / values.amount) * this.scopeSize.width, 0.55 * this.scopeSize.height));
-            let point = segment.point;
-            // if (i === 0 || i === values.amount)
-            //     point.y += this.size.height;
-            point.px = point.x;
-            point.py = point.y;
-            // The first two and last two points are fixed:
-            point.fixed = i < 1 || i > values.amount - 1;
-            if (i > 0) {
-                let spring = new Spring(segment.previous.point, point, this.strength);
-                this.springs.push(spring);
-            }
-        }
-        this.path.position.x -= this.scopeSize.width / 4;
+        // this.path = new paper.Path({
+        //     strokeColor: this.color
+        // });
+        // this.springs = [];
+        // for (let i = 0; i <= values.amount; i++) {
+        //     const x = (this.scopeSize.width / 2) + Math.cos((i / values.amount) * 2 * Math.PI) * 200
+        //     const y = (this.scopeSize.height * 0.55) + Math.sin((i / values.amount) * 2 * Math.PI) * 200
+        //     console.log( x, y)
+        //     let segment = this.path.add(new paper.Point(x, y));
+        //     let point = segment.point;
+        //     // if (i === 0 || i === values.amount)
+        //     //     point.y += this.size.height;
+        //     point.px = point.x;
+        //     point.py = point.y;
+        //     // The first two and last two points are fixed:
+        //     // point.fixed = i < 1 || i > values.amount - 1;
+        //     if (i > 0) {
+        //         let spring = new Spring(segment.previous.point, point, this.strength);
+        //         this.springs.push(spring);
+        //     }
+        // }
+        // this.path.position.x -= this.scopeSize.width / 4;
         // return path;
+
+        this.path = new paper.Path.Circle({
+            center: [this.scopeSize.width / 2, this.scopeSize.height * 0.55],
+            radius: 5
+        });
+        this.path.style = {
+            fillColor: 'blue',
+            strokeColor: 'red',
+            strokeWidth: 5
+        };
+        // this.path.style = {
+        // }
     }
 }
 
@@ -131,9 +146,9 @@ export default {
 
 
         let size = new paper.Size(this.scope.view.size.width * 1.4, this.scope.view.size.height)
-        const colors = ["#0d0d0d", "#1a1a1a", "#262626", "#333333", "#404040", "#4d4d4d"]
+        const colors = ["#4d4d4d", "#0d0d0d", "#1a1a1a", "#262626", "#333333", "#404040", "#4d4d4d"]
         const strengths = [0.30, 0.25, 0.2, 0.15, 0.1, 0.05]
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 1; i++) {
             let wave = new Wave(this.scope.view.size, size, strengths[i], colors[i]);
             this.waves.push(wave)
         }
