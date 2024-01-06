@@ -10,6 +10,29 @@ body {
     @apply text-neutral-50
 }
 
+a {
+    text-decoration: underline;
+    @apply hover:text-neutral-400
+}
+
+.nuxt-content ul {
+    list-style-type: disc;
+    @apply text-lg;
+}
+
+.nuxt-content h3 {
+    @apply text-2xl;
+    @apply font-extrabold;
+    @apply mt-8;
+}
+
+/* .nuxt-content h3:first-child {
+    @apply mt-0;
+} */
+
+.nuxt-content p {
+    @apply text-lg;
+}
 /* p {
     font-family: 'Work Sans', sans-serif;
 } */
