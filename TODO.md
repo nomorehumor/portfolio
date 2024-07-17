@@ -1,0 +1,2 @@
+- add graph representation of all projects (bubbles)
+- add timeline for projects

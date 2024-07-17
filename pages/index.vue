@@ -9,9 +9,9 @@
       <div class="flex flex-col place-items-center">
         <div class="text-2xl text-center font-bold text-zinc-500">Take a look at what I did so far:</div>
         <SkillCircle class="mt-16"></SkillCircle>
-        <SearchBar class="mt-16"></SearchBar>
+        <SearchBar class="mt-14"></SearchBar>
         <FilterButtonPanel class="mt-8"></FilterButtonPanel>
-        <BackgroundWaves color="#606060" :strength="0.15"></BackgroundWaves>
+        <!-- <BackgroundWaves color="#606060" :strength="0.15"></BackgroundWaves> -->
       </div>
     </div>
   </main>
