@@ -1,6 +1,6 @@
 ---
 title: TripSync
-tags: [Dart, Flutter, Google Maps API, android, study]
+tags: [Dart, Flutter, Google Maps API, android, mobile, study]
 date: 01.2024 - 12.2023
 emoji: ⚙️
 ---

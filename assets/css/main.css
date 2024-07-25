@@ -6,9 +6,11 @@
 
 
 body {
-    font-family: 'JetBrains Mono', monospace;
-    @apply text-neutral-50
-}
+    /* font-family: 'JetBrains Mono', monospace; */
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    /* @apply text-neutral-50 */
+    @apply bg-[#121212];
+    @apply text-zinc-300};
 
 a {
     text-decoration: underline;

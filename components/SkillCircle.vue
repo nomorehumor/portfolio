@@ -35,6 +35,7 @@ export default {
                 name: techsInfos[id1].name,
                 color: techsInfos[id1].color,
                 projects: techProjects,
+                filtered_out: false
             });
             if (techProjects.length > this.maxProjectNum) {
                 this.maxProjectNum = techProjects.length;
@@ -57,43 +58,57 @@ export default {
         const circleY = params.height / 2;
         const circleStrokeWidth = 2
 
+        const initialWhiteValue = 0.6;
         const mainCircle = this.two.makeCircle(circleX, circleY, circleRadius);
         mainCircle.fill = 'none';
-        mainCircle.stroke = 'gray';
+        mainCircle.stroke = 'rgba(255,255,255,' + initialWhiteValue + ')';
         mainCircle.linewidth = circleStrokeWidth;
 
         const spaceBetweenArcs = Math.PI / 20;
-        const arcAngle = (Math.PI - (this.techs.length - 1) * spaceBetweenArcs) / this.techs.length;
+        const arcAngle = (2 * Math.PI - (this.techs.length) * spaceBetweenArcs) / this.techs.length;
         const arcHeight = 30;
 
-        let radiuses = [circleRadius];
+        const radiuses = [circleRadius];
         const circles = [mainCircle];
+
         for (let i = 0; i < this.maxProjectNum; i++) {
             radiuses.push(radiuses[i] + arcHeight)
             const circle = this.two.makeCircle(circleX, circleY, radiuses[i+1]);
             circle.fill = 'none';
-            circle.stroke = 'gray';
+            circle.stroke = 'rgba(255,255,255,' + initialWhiteValue / (i+2) + ')';
             circle.linewidth = circleStrokeWidth;
             circles.push(circle);
         }
 
+        // const arcEndX = circleX + Math.cos(angleStart + (angleEnd - angleStart) / 2) * outerRadius
+        // const arcEndY = circleY + Math.sin(angleStart + (angleEnd - angleStart) / 2) * outerRadius
+        
 
-        const projectBlocks = []
+        // this.two.update();
+
         for (let techId = 0; techId < this.techs.length; techId++) {
             const tech = this.techs[techId];
-            // const techName = two.makeText(tech.name, 20 + id * 50, 100);
-            // techName.fill = 'white';
-            // techName.size = 12;
-            // techName.rotation = 25 * tech.techId;
             
-            const arcStart = -Math.PI + spaceBetweenArcs * techId;
-            const angleStart = arcStart + arcAngle * techId;
-            const angleEnd = arcStart + arcAngle * (techId + 1);
+            const angleStart = -Math.PI + spaceBetweenArcs * techId + arcAngle * techId;
+            const angleEnd = angleStart + arcAngle;
+            let lastProjectRadius = circleRadius;
             for (let projectId = 0; projectId < tech.projects.length; projectId++) {
                 const project = tech.projects[projectId];
 
-                const projectBlock = this.two.makeArcSegment(circleX, circleY, radiuses[projectId] + circleStrokeWidth * 2, radiuses[projectId+1] - circleStrokeWidth * 2, angleStart, angleEnd );
-                projectBlock.fill = tech.color;
+                const innerRadius = radiuses[projectId] + circleStrokeWidth * 2;
+                const outerRadius = radiuses[projectId+1] - circleStrokeWidth * 2;
+                const projectBlock = this.two.makeArcSegment(circleX, circleY, innerRadius, outerRadius, angleStart, angleEnd);
+
+                const gradient = this.two.makeRadialGradient(0, 0, radiuses.at(radiuses.length-1),
+                    new this.$Two.Stop(0, tech.color, 1),
+                    new this.$Two.Stop(1, tech.color, 1),
+                )
+                gradient.units = 'userSpaceOnUse';
+
+                // projectBlock.path.cap = 'round'
+                projectBlock.fill = gradient;
+                // projectBlock.fill = tech.color;
+                projectBlock.curved = true;
                 // projectBlock.rotation = 25 * tech.techId;
                 projectBlock.noStroke()
 
@@ -102,17 +117,40 @@ export default {
                 const element = this.two.renderer.domElement.querySelector(`#${projectBlock.id}`)
                 element.addEventListener('mouseenter', () => {
                     this.showProjectInfo(project.name);
+                    projectBlock.opacity = 0.5;
+                     this.two.update()
+                    document.body.style.cursor = 'pointer';
                 });
                 element.addEventListener('mouseleave', () => {
                     this.closeProjectInfo();
+                    if (!project.filteredOut) {
+                        projectBlock.opacity = 1;
+                    } else {
+                        projectBlock.opacity = 0.3
+                    }
+                    this.two.update()
+                    document.body.style.cursor = 'default';
+
                 });
                 element.addEventListener('click', () => {
                     this.openDetails(project.path);
                 });
                 
+                // element.style.pointer = 'pointer'
                 // projectBlocks.push(projectBlock);
                 project.block = projectBlock;
+
+                lastProjectRadius = outerRadius;
             }
+
+            const middleAngle = angleStart + (angleEnd - angleStart) / 2;
+            const textX = circleX + Math.cos(middleAngle) * (lastProjectRadius + 15 + 4 * tech.name.length * Math.abs(Math.cos(middleAngle)));
+            const textY = circleY + Math.sin(middleAngle) * (lastProjectRadius + 15 + 4 * tech.name.length * Math.abs(Math.cos(middleAngle)));
+            const techName = this.two.makeText(tech.name, textX, textY, {'family': 'JetBrains Mono'});
+            techName.fill = 'white';
+            techName.size = 16;
+            this.two.update();
+            // techName.rotation = 25 * tech.techId;
         }
 
     this.two.update();
@@ -148,9 +186,11 @@ export default {
                     if (correctType && correctName) {
                         project.block.opacity = 1;
                         project.block.color = tech.color;
+                        project.filteredOut = false;
                     } else {
-                        project.block.opacity = 0.2;
+                        project.block.opacity = 0.3;
                         project.block.color = "#A3A3A3";
+                        project.filteredOut = true;
                     }
                 }
             }
@@ -161,16 +201,22 @@ export default {
 </script>
 
 <template>
-    <div class="diagram-container grid place-items-center w-96 aspect-square">
+    <div class="w-full h-fit grid items-center justify-items-center">
         <ProjectQuickInfo
             v-if="projectInfoVisible"
             :text="highlightedProject"
         ></ProjectQuickInfo>
-        <div ref="circle" class="w-full aspect-square"></div>
+        <div ref="circle" class="circle w-full h-full"></div>
     </div>
 </template>
 
 <style scoped>
+
+.circle {
+    width: 32rem;
+    height: 28rem;
+}
+
 .project-block {
     transform: translate(0, var(--w));
     transition: 0.1s;

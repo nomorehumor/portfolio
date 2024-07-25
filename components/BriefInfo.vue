@@ -12,12 +12,12 @@ export default {
 </script>
 
 <template>
-<div class="bg-zinc-700 p-10 text-xl max-w-2xl max-h-xl">
+<div class="bg-zinc-800 p-10 text-xl max-w-2xl max-h-m h-fit">
     <nuxt-content :document="text" /> 
     <div class="flex flex-row mt-4 gap-2">
-        <a href="http://www.linkedin.com/in/popov-maxim"><img src="/social/linkedin.png" class="w-8"></a>
-        <a href="http://www.linkedin.com/in/popov-maxim"><img src="/social/github.png" class="w-8"></a>
-        <a href="https://www.instagram.com/nomorehumor/"><img src="/social/instagram.png" class="w-8"></a>
+        <a href="http://www.linkedin.com/in/popov-maxim"><img src="/svg/linkedin.svg" class="w-8 hover:fill-gray-600 hover:scale-125 transition-transform"></a>
+        <a href="http://www.linkedin.com/in/popov-maxim"><img src="/svg/github.svg" class="w-8 hover:fill-gray-600 hover:scale-125 transition-transform"></a>
     </div>
 </div>
 </template>
+

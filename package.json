@@ -20,7 +20,8 @@
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
-    "two.js": "^0.8.14"
+    "two.js": "^0.8.14",
+    "@nuxtjs/svg": "^0.4.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",

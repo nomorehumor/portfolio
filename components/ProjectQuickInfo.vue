@@ -2,7 +2,7 @@
 
 export default {
     props: {
-        text: String
+        text: String("")
     },
     data() {
         return {
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-<div class="bg-neutral-900 text-neutral-50 w-auto h-auto p-2 absolute z-10 border border-neutral-600" :style="{'top': mousePosY + 10 +'px', 'left': mousePosX + 10 +'px'}">
+<div class="bg-neutral-900 text-neutral-50 w-auto h-auto p-2 absolute z-10 border border-neutral-600 pointer-events-none" :style="{'top': mousePosY + 4 + 'px', 'left': mousePosX + 4 +'px'}">
     {{ text }}
 </div>
 

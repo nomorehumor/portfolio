@@ -1,15 +1,15 @@
 
 <template>
-  <div>
+  <div class="w-full h-full">
   <main class="absolute w-full h-full flex flex-col place-items-center bg-[#121212] text-zinc-300">
     <SideBar></SideBar>
-    <div class="text-6xl text-center mt-20 font-extrabold">👋 Hello, my name is Maxim Popov</div>
-    <div class="flex mt-14 gap-20">
-      <BriefInfo></BriefInfo>
-      <div class="flex flex-col place-items-center">
+    <div class="text-6xl text-center mt-16 font-thin">👋 Hello, my name is Maxim Popov</div>
+    <div class="flex items-center w-3/4 h-5/8 mt-10 gap-20">
+      <BriefInfo class="basis-1/2"></BriefInfo>
+      <div class="basis-1/2 flex flex-col place-items-center">
         <div class="text-2xl text-center font-bold text-zinc-500">Take a look at what I did so far:</div>
-        <SkillCircle class="mt-16"></SkillCircle>
-        <SearchBar class="mt-14"></SearchBar>
+        <SkillCircle class="mt-4"></SkillCircle>
+        <SearchBar class="mt-8"></SearchBar>
         <FilterButtonPanel class="mt-8"></FilterButtonPanel>
         <!-- <BackgroundWaves color="#606060" :strength="0.15"></BackgroundWaves> -->
       </div>
