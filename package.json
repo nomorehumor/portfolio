@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup",
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
@@ -14,14 +15,16 @@
   },
   "dependencies": {
     "@nuxt/content": "^1.0.0",
+    "@nuxtjs/svg": "^0.4.1",
     "core-js": "^3.25.3",
+    "gh-pages": "^6.1.1",
     "nuxt": "^2.15.8",
     "paper": "^0.12.17",
+    "push-dir": "^0.4.1",
+    "two.js": "^0.8.14",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
-    "vue-template-compiler": "^2.7.10",
-    "two.js": "^0.8.14",
-    "@nuxtjs/svg": "^0.4.1"
+    "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
